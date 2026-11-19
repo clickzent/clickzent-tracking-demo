@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CLICKZENT Tracking Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <h1>Welcome to CLICKZENT</h1>
+  <p>Digital Marketing & Tracking Demo</p>
+
+  <button id="contactBtn">Contact Us</button>
+
+  <p id="message"></p>
+
+  <script>
+    document.getElementById("contactBtn")
+      .addEventListener("click", function() {
+        document.getElementById("message").textContent =
+          "Contact button clicked successfully!";
+        console.log("contact_click event triggered");
+      });
+  </script>
+</body>
+</html>
