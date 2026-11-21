@@ -16,7 +16,26 @@
   <p>Digital Marketing & Tracking Demo</p>
 
   <button id="contactBtn">Contact Us</button>
+<h2>Request a Free Consultation</h2>
 
+<form id="leadForm">
+  <input type="text" id="leadName" placeholder="Your Name" required>
+  <input type="email" id="leadEmail" placeholder="Your Email" required>
+  <button type="submit">Submit Enquiry</button>
+</form>
+  <p id="leadMessage"></p>
+<script>
+document.getElementById("leadForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  document.getElementById("leadMessage").textContent =
+    "Enquiry submitted successfully!";
+
+  window.dataLayer.push({
+    event: "lead_form_submit"
+  });
+});
+</script>
   <p id="message"></p>
 
   <script>
