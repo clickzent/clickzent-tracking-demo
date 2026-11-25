@@ -2,48 +2,128 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-P5QVP8GH"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-</script>
   <title>CLICKZENT Tracking Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-P5QVP8GH"></script>
+
+  <style>
+    #cookieBanner {
+      position: fixed;
+      bottom: 15px;
+      left: 5%;
+      width: 90%;
+      max-width: 600px;
+      background: #172033;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      z-index: 9999;
+      display: none;
+    }
+
+    #cookieBanner button {
+      padding: 10px 16px;
+      margin: 8px 8px 0 0;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #acceptCookies {
+      background: #f28c28;
+      color: white;
+    }
+
+    #rejectCookies {
+      background: #ddd;
+      color: #222;
+    }
+  </style>
 </head>
+
 <body>
   <h1>Welcome to CLICKZENT</h1>
   <p>Digital Marketing & Tracking Demo</p>
 
   <button id="contactBtn">Contact Us</button>
-<h2>Request a Free Consultation</h2>
 
-<form id="leadForm">
-  <input type="text" id="leadName" placeholder="Your Name" required>
-  <input type="email" id="leadEmail" placeholder="Your Email" required>
-  <button type="submit">Submit Enquiry</button>
-</form>
+  <h2>Request a Free Consultation</h2>
+
+  <form id="leadForm">
+    <input type="text" id="leadName" placeholder="Your Name" required>
+    <input type="email" id="leadEmail" placeholder="Your Email" required>
+    <button type="submit">Submit Enquiry</button>
+  </form>
+
   <p id="leadMessage"></p>
-<script>
-document.getElementById("leadForm").addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  document.getElementById("leadMessage").textContent =
-    "Enquiry submitted successfully!";
-
-  window.dataLayer.push({
-    event: "lead_form_submit"
-  });
-});
-</script>
   <p id="message"></p>
 
+  <!-- Cookie Consent Banner -->
+  <div id="cookieBanner">
+    <h3>Cookie Preferences</h3>
+    <p>We use cookies to understand website activity and improve your experience. You can accept or reject optional cookies.</p>
+    <button id="acceptCookies">Accept All</button>
+    <button id="rejectCookies">Reject All</button>
+  </div>
+
   <script>
+    // Contact click tracking
     document.getElementById("contactBtn")
       .addEventListener("click", function() {
         document.getElementById("message").textContent =
           "Contact button clicked successfully!";
-        console.log("contact_click event triggered");
+
+        window.dataLayer.push({
+          event: "contact_click"
+        });
+      });
+
+    // Lead form tracking
+    document.getElementById("leadForm")
+      .addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        document.getElementById("leadMessage").textContent =
+          "Enquiry submitted successfully!";
+
+        window.dataLayer.push({
+          event: "lead_form_submit"
+        });
+      });
+
+    // Cookie consent handling
+    const banner = document.getElementById("cookieBanner");
+    const savedConsent = localStorage.getItem("clickzent_consent");
+
+    if (savedConsent === "accepted") {
+      window.dataLayer.push({ event: "consent_accept" });
+    } else if (savedConsent === "rejected") {
+      window.dataLayer.push({ event: "consent_reject" });
+    } else {
+      banner.style.display = "block";
+    }
+
+    document.getElementById("acceptCookies")
+      .addEventListener("click", function() {
+        localStorage.setItem("clickzent_consent", "accepted");
+        window.dataLayer.push({ event: "consent_accept" });
+        banner.style.display = "none";
+      });
+
+    document.getElementById("rejectCookies")
+      .addEventListener("click", function() {
+        localStorage.setItem("clickzent_consent", "rejected");
+        window.dataLayer.push({ event: "consent_reject" });
+        banner.style.display = "none";
       });
   </script>
 </body>
